@@ -2,9 +2,9 @@
 # @Author: freefly801213
 # @Date: 2022-01-03 00:02
 
-from flask_restful import Resource, reqparse
+from flask_restful import Resource, reqparse, marshal_with
 from service.InvoiceService import InvoiceService
-from common import Commons
+from common import Commons, HttpCommons
 
 
 class InvoiceAPI(Resource):
@@ -23,6 +23,7 @@ class InvoiceAPI(Resource):
         self.invoiceService = InvoiceService()
         super(InvoiceAPI, self).__init__()
 
+    @marshal_with(HttpCommons.HTTP_RESPONSE_STR_LIST_FIELDS)
     def post(self):
         """
         POST请求处理方法
@@ -39,4 +40,4 @@ class InvoiceAPI(Resource):
         if args['filetype'] == 'pdf':
             results = self.invoiceService.processPdf(args['file'])
         # 返回结果
-        return results
+        return HttpCommons.success(data=results)
