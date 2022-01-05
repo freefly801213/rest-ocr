@@ -59,6 +59,8 @@ class FileUtil():
             mat = fitz.Matrix(zoom_x, zoom_y).preRotate(rotate)
             pix = page.getPixmap(matrix=mat, alpha=False)
             pix.writePNG(image_file)
+        # 删除PDF临时文件
+        os.remove(pdf_path)
 
         return image_file
 
